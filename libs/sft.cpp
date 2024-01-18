@@ -9,7 +9,8 @@ using namespace std;
 #pragma region SFT
 
     SFT::SFT () {
-
+        trie = new Trie();
+        dag = new DAG();
     }
 
     void SFT::addPerson (string name, string fatherID, string motherID) {

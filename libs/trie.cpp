@@ -43,6 +43,7 @@ using namespace std;
 
     DAGNode* Trie::search(const string& value) {
         TrieNode* current = root;
+        
         for (char chr : value) {
             int index = getIndex(chr);
             if (!current->children[index]) {
