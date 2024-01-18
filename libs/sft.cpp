@@ -23,15 +23,19 @@ using namespace std;
 
         person->linkToParents(father, mother);
 
-        trie -> insert(id, person);
+        trie->insert(id, person);
     }
 
     bool SFT::findPerson (string id) {
-        return false;
+        DAGNode* person = trie->search(id);
+        return person != nullptr;
     }
 
     void SFT::deletePerson (string id) {
-
+        // INEFFICIENT
+        DAGNode* person = trie->search(id);
+        dag->deleteNode(person);
+        trie->remove(id);
     }
 
     int SFT::getPersonsCount () {

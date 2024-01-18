@@ -13,14 +13,15 @@ using namespace std;
     }
 
     DAGNode::~DAGNode() {
-        father -> unlinkChild(this);
-        mother -> unlinkChild(this);
+        if (father)
+            father -> unlinkChild(this);
+        
+        if (mother)
+            mother -> unlinkChild(this);
 
         for (auto &&child : children) {
             delete child;
         }
-        
-        delete this;
     }
 
     DAGNode* DAGNode::getFather() const {

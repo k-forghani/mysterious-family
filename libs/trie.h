@@ -20,6 +20,10 @@ class TrieNode {
     public:
         TrieNode();
 
+        ~TrieNode();
+
+        bool hasNoChildren();
+
     friend class Trie;
 };
 
@@ -29,10 +33,14 @@ class Trie {
 
         int getIndex(char chr);
 
+        TrieNode* removeHelper(TrieNode* node, const string& value, int depth);
+
     public:
         Trie();
 
         void insert(const string& value, DAGNode* person);
+
+        void remove(const string& value);
 
         DAGNode* search(const string& value);
 };

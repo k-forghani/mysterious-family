@@ -13,6 +13,19 @@ using namespace std;
         }
     }
 
+    TrieNode::~TrieNode() {
+
+    }
+
+    bool TrieNode::hasNoChildren() {
+        for (int i = 0; i < ALPHABET_SIZE; ++i) {
+            if (this->children[i] != nullptr) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 #pragma endregion
 
 #pragma region Trie
@@ -23,6 +36,33 @@ using namespace std;
         } else {
             return chr - 'a';
         }
+    }
+
+    TrieNode* Trie::removeHelper(TrieNode* node, const string& value, int depth) {
+        if (node == nullptr) {
+            return nullptr;
+        }
+
+        if (depth == value.length()) {
+            node->person = nullptr;
+
+            if (node->hasNoChildren()) {
+                delete node;
+                return nullptr;
+            }
+
+            return nullptr;
+        } else {
+            int index = getIndex(value[depth]);
+            node->children[index] = removeHelper(node->children[index], value, depth + 1);
+        }
+
+        if (node->hasNoChildren() && node->person == nullptr && depth > 0) {
+            delete node;
+            return nullptr;
+        }
+
+        return node;
     }
 
     Trie::Trie() {
@@ -41,9 +81,13 @@ using namespace std;
         current->person = person;
     }
 
+    void Trie::remove(const string& value) {
+        root = removeHelper(root, value, 0);
+    }
+
     DAGNode* Trie::search(const string& value) {
         TrieNode* current = root;
-        
+
         for (char chr : value) {
             int index = getIndex(chr);
             if (!current->children[index]) {
