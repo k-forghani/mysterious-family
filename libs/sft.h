@@ -36,4 +36,4 @@ class SFT {
         pair<string, string> getMostDistantRelationship();
 };
 
-#endif SFT_H
+#endif

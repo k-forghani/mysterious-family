@@ -46,4 +46,4 @@ class DAG {
         void deleteNode(DAGNode* target);
 };
 
-#endif DAG_H
+#endif

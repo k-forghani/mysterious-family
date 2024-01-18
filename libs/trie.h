@@ -35,4 +35,4 @@ class Trie {
         DAGNode* search(const string& value);
 };
 
-#endif TRIE_H
+#endif
