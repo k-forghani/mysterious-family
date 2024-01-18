@@ -33,14 +33,14 @@ class Trie {
 
         int getIndex(char chr);
 
-        TrieNode* removeHelper(TrieNode* node, const string& value, int depth);
+        TrieNode* removeHelper(TrieNode* node, const string& value, DAGNode*& person, int depth);
 
     public:
         Trie();
 
         void insert(const string& value, DAGNode* person);
 
-        void remove(const string& value);
+        DAGNode* remove(const string& value);
 
         DAGNode* search(const string& value);
 };

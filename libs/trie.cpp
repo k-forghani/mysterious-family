@@ -38,12 +38,13 @@ using namespace std;
         }
     }
 
-    TrieNode* Trie::removeHelper(TrieNode* node, const string& value, int depth) {
+    TrieNode* Trie::removeHelper(TrieNode* node, const string& value, DAGNode*& person, int depth) {
         if (node == nullptr) {
             return nullptr;
         }
 
         if (depth == value.length()) {
+            person = node->person;
             node->person = nullptr;
 
             if (node->hasNoChildren()) {
@@ -54,7 +55,7 @@ using namespace std;
             return nullptr;
         } else {
             int index = getIndex(value[depth]);
-            node->children[index] = removeHelper(node->children[index], value, depth + 1);
+            node->children[index] = removeHelper(node->children[index], value, person, depth + 1);
         }
 
         if (node->hasNoChildren() && node->person == nullptr && depth > 0) {
@@ -81,8 +82,10 @@ using namespace std;
         current->person = person;
     }
 
-    void Trie::remove(const string& value) {
-        root = removeHelper(root, value, 0);
+    DAGNode* Trie::remove(const string& value) {
+        DAGNode* person = nullptr;
+        root = removeHelper(root, value, person, 0);
+        return person;
     }
 
     DAGNode* Trie::search(const string& value) {

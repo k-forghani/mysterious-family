@@ -32,10 +32,8 @@ using namespace std;
     }
 
     void SFT::deletePerson (string id) {
-        // INEFFICIENT
-        DAGNode* person = trie->search(id);
+        DAGNode* person = trie->remove(id);
         dag->deleteNode(person);
-        trie->remove(id);
     }
 
     int SFT::getPersonsCount () {
