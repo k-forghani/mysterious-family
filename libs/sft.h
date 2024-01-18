@@ -15,7 +15,7 @@ class SFT {
     public:
         SFT();
 
-        void addPerson(string id);
+        void addPerson(string name, string fatherID = "", string motherID = "");
 
         bool findPerson(string id);
 
