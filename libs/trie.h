@@ -10,6 +10,8 @@ using namespace std;
 
 const int ALPHABET_SIZE = 36;
 
+class DAGNode;
+
 class TrieNode {
     private:
         TrieNode* children[ALPHABET_SIZE];
