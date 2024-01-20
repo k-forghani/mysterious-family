@@ -12,6 +12,8 @@ class SFT {
         Trie* trie;
         DAG* dag;
 
+        int count;
+
     public:
         SFT();
 
@@ -23,7 +25,7 @@ class SFT {
 
         int getPersonsCount();
 
-        bool isParent(string parent, string child);
+        bool isAncestor(string ancestor, string child);
 
         bool areSiblings(string firstPerson, string secondPerson);
 

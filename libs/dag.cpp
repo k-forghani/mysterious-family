@@ -32,6 +32,10 @@ using namespace std;
         return mother;
     }
 
+    string DAGNode::getID() const {
+        return id;
+    }
+
     void DAGNode::linkToParents(DAGNode* father, DAGNode* mother) {
         this -> father = father;
         this -> mother = mother;
@@ -60,6 +64,20 @@ using namespace std;
                 cursor++;
             }
         }
+    }
+
+    bool DAGNode::searchInChildren(string target) {
+        if (id == target) {
+            return true;
+        }
+        
+        bool isFound = false;
+
+        for (auto &&child : children) {
+            isFound = isFound || child->searchInChildren(target);
+        }
+
+        return isFound;
     }
 
     bool DAGNode::isSourceNode() {

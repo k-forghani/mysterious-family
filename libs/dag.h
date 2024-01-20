@@ -25,11 +25,15 @@ class DAGNode {
 
         DAGNode* getMother() const;
 
+        string getID() const;
+
         void linkToParents(DAGNode* father, DAGNode* mother);
 
         void linkChild(DAGNode* target);
 
         void unlinkChild(DAGNode* target);
+
+        bool searchInChildren(string target);
 
         bool isSourceNode();
 };

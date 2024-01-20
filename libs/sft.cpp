@@ -8,7 +8,7 @@ using namespace std;
 
 #pragma region SFT
 
-    SFT::SFT () {
+    SFT::SFT () : count(0) {
         trie = new Trie();
         dag = new DAG();
     }
@@ -24,6 +24,8 @@ using namespace std;
         person->linkToParents(father, mother);
 
         trie->insert(id, person);
+
+        count++;
     }
 
     bool SFT::findPerson (string id) {
@@ -34,14 +36,16 @@ using namespace std;
     void SFT::deletePerson (string id) {
         DAGNode* person = trie->remove(id);
         dag->deleteNode(person);
+        count--;
     }
 
     int SFT::getPersonsCount () {
-        return 0;
+        return count;
     }
 
-    bool SFT::isParent (string parent, string child) {
-        return false;
+    bool SFT::isAncestor (string ancestor, string child) {
+        DAGNode* ancestorObject = trie->search(ancestor);
+        return ancestorObject->searchInChildren(child);
     }
 
     bool SFT::areSiblings (string firstPerson, string secondPerson) {
