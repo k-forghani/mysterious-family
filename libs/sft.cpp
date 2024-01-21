@@ -69,7 +69,12 @@ using namespace std;
     }
 
     int SFT::getMostDistanceFromChildren (string person) {
-        return 0;
+        DAGNode* personObject = trie->search(person);
+
+        int distance;
+        personObject->getMostDistanceFromChildren(distance);
+
+        return distance;
     }
 
     pair<string, string> SFT::getMostDistantRelationship () {

@@ -81,6 +81,17 @@ using namespace std;
         return isFound;
     }
 
+    int DAGNode::getMostDistanceFromChildren(int& distance) const {
+        int dist = 0;
+        for (auto &&child : children) {
+            int temp;
+            child->getMostDistanceFromChildren(temp);
+            if (temp > dist)
+                dist = temp;
+        }
+        distance = dist + 1;
+    }
+
     bool DAGNode::isSourceNode() {
         return father == nullptr && mother == nullptr;
     }

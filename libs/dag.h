@@ -35,6 +35,8 @@ class DAGNode {
 
         bool searchInChildren(string target, bool recursively = false);
 
+        int getMostDistanceFromChildren(int& distance) const;
+
         bool isSourceNode();
 };
 
