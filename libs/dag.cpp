@@ -66,15 +66,16 @@ using namespace std;
         }
     }
 
-    bool DAGNode::searchInChildren(string target) {
-        if (id == target) {
-            return true;
-        }
-        
+    bool DAGNode::searchInChildren(string target, bool recursively) {
         bool isFound = false;
 
         for (auto &&child : children) {
-            isFound = isFound || child->searchInChildren(target);
+            if (child->getID() == target) {
+                isFound = true;
+                break;
+            }
+            if (recursively)
+                isFound = isFound || child->searchInChildren(target, true);
         }
 
         return isFound;

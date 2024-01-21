@@ -46,11 +46,17 @@ using namespace std;
     bool SFT::isAncestor (string ancestor, string child) {
         DAGNode* ancestorObject = trie->search(ancestor);
         if (ancestorObject)
-            return ancestorObject->searchInChildren(child);
+            return ancestorObject->searchInChildren(child, true);
         return false;
     }
 
     bool SFT::areSiblings (string firstPerson, string secondPerson) {
+        DAGNode* firstPersonObject = trie->search(firstPerson);
+
+        if (firstPersonObject) {
+            return firstPersonObject->getFather()->searchInChildren(secondPerson) || firstPersonObject->getMother()->searchInChildren(secondPerson);
+        }
+
         return false;
     }
 

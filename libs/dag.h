@@ -33,7 +33,7 @@ class DAGNode {
 
         void unlinkChild(DAGNode* target);
 
-        bool searchInChildren(string target);
+        bool searchInChildren(string target, bool recursively = false);
 
         bool isSourceNode();
 };
