@@ -61,7 +61,20 @@ using namespace std;
     }
 
     bool SFT::haveExtendedRelationship (string firstPerson, string secondPerson) {
-        return false;
+        DAGNode* firstPersonObject = trie->search(firstPerson);
+        DAGNode* secondPersonObject = trie->search(secondPerson);
+
+        if (!firstPersonObject || !secondPersonObject) {
+            return false;
+        }
+        
+        if (firstPersonObject->searchInChildren(secondPerson, true) || secondPersonObject->searchInChildren(firstPerson, true)) {
+            return false;
+        }
+
+        DAGNode* lca = dag->findLowestCommonAncesotor(firstPersonObject, secondPersonObject);
+
+        return lca != nullptr;
     }
 
     string SFT::getLowsetCommonAncestor (string firstPerson, string secondPerson) {
