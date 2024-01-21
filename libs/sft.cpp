@@ -65,7 +65,13 @@ using namespace std;
     }
 
     string SFT::getLowsetCommonAncestor (string firstPerson, string secondPerson) {
-        return "";
+        DAGNode* firstPersonObject = trie->search(firstPerson);
+        DAGNode* secondPersonObject = trie->search(secondPerson);
+        DAGNode* lca = dag->findLowestCommonAncesotor(firstPersonObject, secondPersonObject);
+        if (lca)
+            return lca->getID();
+        else
+            return "";
     }
 
     int SFT::getMostDistanceFromChildren (string person) {

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "dag.h"
 
 using namespace std;
@@ -81,7 +82,7 @@ using namespace std;
         return isFound;
     }
 
-    int DAGNode::getMostDistanceFromChildren(int& distance) const {
+    void DAGNode::getMostDistanceFromChildren(int& distance) const {
         int dist = 0;
         for (auto &&child : children) {
             int temp;
@@ -89,7 +90,33 @@ using namespace std;
             if (temp > dist)
                 dist = temp;
         }
-        distance = dist + 1;
+        distance = dist;
+        if (!children.empty())
+            distance++;
+    }
+
+    void DAGNode::getAncestors(vector<DAGNode*>& ancestors) {
+        if (father) {
+            ancestors.push_back(father);
+            ancestors.push_back(mother);
+        }
+        
+        if (father) {
+            father->getAncestors(ancestors);
+            mother->getAncestors(ancestors);
+        }
+    }
+
+    void DAGNode::traverseUpTo(DAGNode*& breakNode, vector<DAGNode*> nodes) {
+        if (count(nodes.begin(), nodes.end(), this) > 0) {
+            breakNode = this;
+            return;
+        }
+        
+        if (father) {
+            father->traverseUpTo(breakNode, nodes);
+            mother->traverseUpTo(breakNode, nodes);
+        }
     }
 
     bool DAGNode::isSourceNode() {
@@ -129,6 +156,21 @@ using namespace std;
         }
 
         delete target;
+    }
+
+    DAGNode* DAG::findLowestCommonAncesotor(DAGNode* firstNode, DAGNode* secondNode) {
+        if (!firstNode || !secondNode)
+            return nullptr;
+
+        vector<DAGNode*> firstNodeParents;
+
+        firstNode->getAncestors(firstNodeParents);
+
+        DAGNode* lca = nullptr;
+
+        secondNode->traverseUpTo(lca, firstNodeParents);
+
+        return lca;
     }
 
 

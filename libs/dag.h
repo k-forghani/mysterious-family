@@ -35,9 +35,13 @@ class DAGNode {
 
         bool searchInChildren(string target, bool recursively = false);
 
-        int getMostDistanceFromChildren(int& distance) const;
+        void getMostDistanceFromChildren(int& distance) const;
 
         bool isSourceNode();
+
+        void getAncestors(vector<DAGNode*>& ancestors);
+
+        void traverseUpTo(DAGNode*& breakNode, vector<DAGNode*> nodes);
 };
 
 class DAG {
@@ -50,6 +54,8 @@ class DAG {
         DAGNode* newNode(string id, DAGNode* father = nullptr, DAGNode* mother = nullptr);
 
         void deleteNode(DAGNode* target);
+
+        DAGNode* findLowestCommonAncesotor(DAGNode* firstNode, DAGNode* secondNode);
 };
 
 #endif
