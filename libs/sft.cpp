@@ -104,33 +104,33 @@ using namespace std;
 
     string SFT::toJSON() const {
         vector<DAGNode*> nodes = trie->getAllLeaves();
-
-        map<string, int> nodesIDs;
-
-        for (int i = 0; i < nodes.size(); i++) {
-            nodesIDs[nodes[i]->getID()] = i;
-        }
         
         Json::Value json;
 
         Json::Value jsonNodes;
         Json::Value jsonEdges;
 
+        Json::Value jsonData;
+        jsonData["data"] = "";
+
         for (auto &&node : nodes) {
             Json::Value jsonNode;
+            jsonNode["id"] = node->getID();
             jsonNode["name"] = node->getID();
-            jsonNodes.append(jsonNode);
+            jsonData["data"] = jsonNode;
+            jsonNodes.append(jsonData);
             
             for (auto &&child : node->children) {
                 Json::Value jsonEdge;
-                jsonEdge["source"] = nodesIDs[node->getID()];
-                jsonEdge["target"] = nodesIDs[child->getID()];
-                jsonEdges.append(jsonEdge);
+                jsonEdge["source"] = node->getID();
+                jsonEdge["target"] = child->getID();
+                jsonData["data"] = jsonEdge;
+                jsonEdges.append(jsonData);
             }
         }
 
         json["nodes"] = jsonNodes;
-        json["links"] = jsonEdges;
+        json["edges"] = jsonEdges;
         
         Json::StreamWriterBuilder writer;
         string jsonString = Json::writeString(writer, json);
