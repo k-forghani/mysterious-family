@@ -11,6 +11,7 @@ On Ubuntu operating system, install these prerequisites:
 ```bash
 sudo apt install libboost-dev
 sudo apt install crow-v1.0+h.deb
+sudo apt-get install libjsoncpp-dev
 ```
 
 ## Compilation

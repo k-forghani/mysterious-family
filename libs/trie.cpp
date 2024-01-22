@@ -101,4 +101,25 @@ using namespace std;
         return current->person;
     }
 
+    void Trie::getAllLeaves(TrieNode* node, vector<DAGNode*>& result) {
+        if (!node) {
+            return;
+        }
+
+        if (node->person) {
+            result.push_back(node->person);
+        }
+
+        for (int i = 0; i < ALPHABET_SIZE; i++) {
+            getAllLeaves(node->children[i], result);
+        }
+    }
+
+    vector<DAGNode*> Trie::getAllLeaves() {
+        vector<DAGNode*> result;
+        getAllLeaves(root, result);
+        return result;
+    }
+
+
 #pragma endregion

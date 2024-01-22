@@ -17,9 +17,9 @@ int main () {
     
     SFT sft;
     sft.addPerson("1");
-    cout << sft.findPerson("1") << endl;
+    cout << "findPerson: " << sft.findPerson("1") << endl;
     sft.deletePerson("1");
-    cout << sft.findPerson("1") << endl;
+    cout << "findPerson: " << sft.findPerson("1") << endl;
     sft.addPerson("1");
     sft.addPerson("2");
     sft.addPerson("121", "1", "2");
@@ -38,7 +38,7 @@ int main () {
     cout << "areSiblings: " << sft.areSiblings("121", "123") << endl;
     cout << "getMostDistanceFromChildren: " << sft.getMostDistanceFromChildren("1") << endl;
     cout << "getLowsetCommonAncestor: " << sft.getLowsetCommonAncestor("1235611", "1213411") << endl;
+    cout << "JSON: " << sft.toJSON() << endl;
     
-
     return 0;
 }

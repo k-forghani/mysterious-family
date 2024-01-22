@@ -43,6 +43,10 @@ class Trie {
         DAGNode* remove(const string& value);
 
         DAGNode* search(const string& value);
+
+        void getAllLeaves(TrieNode* node, vector<DAGNode*>& result);
+
+        vector<DAGNode*> getAllLeaves();
 };
 
 #endif

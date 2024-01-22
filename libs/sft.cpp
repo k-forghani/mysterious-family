@@ -1,6 +1,8 @@
 // Secure Family Tree Implementation
 
 #include <iostream>
+#include <map>
+#include <jsoncpp/json/json.h>
 #include "sft.h"
 
 using namespace std;
@@ -100,5 +102,40 @@ using namespace std;
         return make_pair("", "");
     }
 
+    string SFT::toJSON() const {
+        vector<DAGNode*> nodes = trie->getAllLeaves();
+
+        map<string, int> nodesIDs;
+
+        for (int i = 0; i < nodes.size(); i++) {
+            nodesIDs[nodes[i]->getID()] = i;
+        }
+        
+        Json::Value json;
+
+        Json::Value jsonNodes;
+        Json::Value jsonEdges;
+
+        for (auto &&node : nodes) {
+            Json::Value jsonNode;
+            jsonNode["name"] = node->getID();
+            jsonNodes.append(jsonNode);
+            
+            for (auto &&child : node->children) {
+                Json::Value jsonEdge;
+                jsonEdge["source"] = nodesIDs[node->getID()];
+                jsonEdge["target"] = nodesIDs[child->getID()];
+                jsonEdges.append(jsonEdge);
+            }
+        }
+
+        json["nodes"] = jsonNodes;
+        json["links"] = jsonEdges;
+        
+        Json::StreamWriterBuilder writer;
+        string jsonString = Json::writeString(writer, json);
+
+        return jsonString;
+    }
 
 #pragma endregion

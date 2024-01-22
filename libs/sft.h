@@ -36,6 +36,8 @@ class SFT {
         int getMostDistanceFromChildren(string person);
 
         pair<string, string> getMostDistantRelationship();
+
+        string toJSON() const;
 };
 
 #endif

@@ -14,9 +14,10 @@ class DAGNode {
         string id;
         DAGNode* father;
         DAGNode* mother;
-        vector<DAGNode*> children;
 
     public:
+        vector<DAGNode*> children;
+        
         DAGNode(string id);
 
         ~DAGNode();
