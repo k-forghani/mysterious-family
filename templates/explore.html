@@ -1,83 +1,308 @@
+<!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
-    <script src="https://unpkg.com/dagre@0.7.4/dist/dagre.js"></script>
-    <script src="static/assets/js/cytoscape-dagre.js"></script>
-    <title>Mysterious Family - View</title>
+    <link href="static/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/explore.css" rel="stylesheet">
+    <title>Mysterious Family - Explore</title>
+  </head>
 
-    <style>
-        body {
-          font-family: helvetica;
-          font-size: 14px;
-        }
-  
-        #cy {
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          left: 0;
-          top: 0;
-          z-index: 999;
-        }
-  
-        h1 {
-          opacity: 0.5;
-          font-size: 1em;
-        }
-      </style>
-  
-      <script>
-        window.addEventListener('DOMContentLoaded', function(){
-  
-          var cy = window.cy = cytoscape({
-            container: document.getElementById('cy'),
-  
-            boxSelectionEnabled: false,
-            autounselectify: true,
-  
-            layout: {
-              name: 'dagre',
-              padding: 75
-            },
-  
-            style: [
-              {
-                selector: 'node',
-                style: {
-                  'background-color': '#11479e'
-                }
+  <body>
+    <div id="open-btn">
+      <i class="fas fa-bars">Show Options</i>
+    </div>
+
+    <div class="sidebar">
+      <button id="close-btn">
+        <i class="fas fa-times">Close Options</i>
+      </button>
+
+      <div class="container mt-3">
+        <fieldset>
+          <legend>New Person</legend>
+          <div class="row mt-3">
+            <div class="col">
+              <div class="form-group">
+                <label for="addId">Person ID:</label>
+                <input type="text" class="form-control" id="addId">
+              </div>
+              <div class="form-group">
+                <label for="addFatherId">Father ID:</label>
+                <input type="text" class="form-control" id="addFatherId">
+              </div>
+              <div class="form-group">
+                <label for="addMotherId">Mother ID:</label>
+                <input type="text" class="form-control" id="addMotherId">
+              </div>
+              <div class="form-group">
+                <label for="addName">Name:</label>
+                <input type="text" class="form-control" id="addName">
+              </div>
+              <button class="btn btn-primary mt-2 mb-2" onclick="addPerson()">Add Person</button>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Finding Person</legend>
+          <div class="row mt-3">
+            <div class="col">
+              <div class="form-group">
+                <label for="findId">Find Person ID:</label>
+                <input type="text" class="form-control" id="findId">
+              </div>
+              <button class="btn btn-success mt-2 mb-2" onclick="findPerson()">Find Person</button>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Deleting Person</legend>
+          <div class="row mt-3">
+            <div class="col">
+              <div class="form-group">
+                <label for="deleteId">Delete Person ID:</label>
+                <input type="text" class="form-control" id="deleteId">
+              </div>
+              <button class="btn btn-danger mt-2 mb-2" onclick="deletePerson()">Delete Person</button>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Ancestorhood</legend>
+          <div class="row mt-3">
+            <div class="col">
+              <div class="form-group">
+                <label for="ancestor">Ancestor ID:</label>
+                <input type="text" class="form-control" id="ancestor">
+              </div>
+              <div class="form-group">
+                <label for="child">Child ID:</label>
+                <input type="text" class="form-control" id="child">
+              </div>
+              <button class="btn btn-info mt-2 mb-2" onclick="isAncestor()">Check Ancestor</button>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Siblinghood</legend>
+          <div class="row mt-3">
+            <div class="col">
+              <div class="form-group">
+                <label for="firstPerson">First Person ID:</label>
+                <input type="text" class="form-control" id="firstPerson">
+              </div>
+              <div class="form-group">
+                <label for="secondPerson">Second Person ID:</label>
+                <input type="text" class="form-control" id="secondPerson">
+              </div>
+              <button class="btn btn-warning mt-2 mb-2" onclick="areSiblings()">Check Siblings</button>
+            </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Extended Relationship</legend>
+          <div class="row mt-3">
+            <div class="col">
+              <div class="form-group">
+                <label for="relationshipPerson1">Person 1 ID:</label>
+                <input type="text" class="form-control" id="relationshipPerson1">
+              </div>
+              <div class="form-group">
+                <label for="relationshipPerson2">Person 2 ID:</label>
+                <input type="text" class="form-control" id="relationshipPerson2">
+              </div>
+              <button class="btn btn-secondary mt-2 mb-2" onclick="haveExtendedRelationship()">Check Extended Relationship</button>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Lowest Common Ancestor</legend>
+          <div class="row mt-3">
+            <div class="col">
+              <div class="form-group">
+                <label for="commonAncestor1">Person 1 ID:</label>
+                <input type="text" class="form-control" id="commonAncestor1">
+              </div>
+              <div class="form-group">
+                <label for="commonAncestor2">Person 2 ID:</label>
+                <input type="text" class="form-control" id="commonAncestor2">
+              </div>
+              <button class="btn btn-primary mt-2 mb-2" onclick="getLowestCommonAncestor()">Get Lowest Common Ancestor</button>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Most Distance from Children</legend>
+          <div class="row mt-3">
+            <div class="col">
+              <div class="form-group">
+                <label for="distancePerson">Person ID:</label>
+                <input type="text" class="form-control" id="distancePerson">
+              </div>
+              <button class="btn btn-dark mt-2 mb-2" onclick="getMostDistanceFromChildren()">Get Most Distance from Children</button>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Longest Relationship</legend>
+          <div class="row mt-3">
+            <div class="col">
+              <button class="btn btn-primary mt-2 mb-2" onclick="getLongestRelationship()">Get Longest Relationship</button>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="content">
+      <iframe id="viewer" src="/view" frameborder="0"></iframe>
+    </div>
+
+    <script src="static/assets/js/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="static/assets/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      $("#open-btn").click(function () {
+        $(".sidebar").css("left", "0");
+      });
+
+      $("#close-btn").click(function () {
+        $(".sidebar").css("left", "-400px");
+      });
+
+      document.addEventListener('keydown', function(event) {
+          if (event.key === "Escape" || event.keyCode === 27) {
+            $(".sidebar").css("left", "-400px");
+          } else if (event.key === "Enter" || event.keyCode === 13) {
+            $(".sidebar").css("left", "0");
+          }
+      });
+    </script>
+
+    <script>
+      function makeAjaxRequest(url, data, successCallback) {
+          fetch(url, {
+              method: "POST",
+              headers: {
+                  'Content-Type': 'application/json',
               },
-
-              {
-                selector: 'node[name]',
-                style: {
-                    'content': 'data(name)'
-                }
-                },
-  
-              {
-                selector: 'edge',
-                style: {
-                  'width': 4,
-                  'target-arrow-shape': 'triangle',
-                  'line-color': '#9dbaea',
-                  'target-arrow-color': '#9dbaea',
-                  'curve-style': 'bezier'
-                }
+              body: JSON.stringify(data),
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error(`Network response was not ok: ${response.statusText}`);
               }
-            ],
-  
-            elements: {{{ data }}} });
-  
-        });
-      </script>
-</head>
+              return response.json();
+          })
+          .then(data => {
+              successCallback(data);
+          })
+      }
 
-<body>
-    <div id="cy"></div>
-</body>
+      function addPerson() {
+        var id = document.getElementById('addId').value;
+        var fatherID = document.getElementById('addFatherId').value;
+        var motherID = document.getElementById('addMotherId').value;
+        var name = document.getElementById('addName').value;
+
+        var data = { id: id, fatherID: fatherID, motherID: motherID, name: name };
+
+        makeAjaxRequest('/addPerson', data, function (response) {
+          console.log('Person added successfully:', response);
+        });
+      }
+
+      function findPerson() {
+        var id = document.getElementById('findId').value;
+
+        var data = { id: id };
+
+        makeAjaxRequest('/findPerson', data, function (response) {
+          console.log('Person found:', response);
+        });
+      }
+
+      function deletePerson() {
+        var id = document.getElementById('deleteId').value;
+
+        var data = { id: id };
+
+        makeAjaxRequest('/deletePerson', data, function (response) {
+          console.log('Person deleted successfully:', response);
+        });
+      }
+
+      function isAncestor() {
+        var ancestor = document.getElementById('ancestor').value;
+        var child = document.getElementById('child').value;
+
+        var data = { ancestor: ancestor, child: child };
+
+        makeAjaxRequest('/isAncestor', data, function (response) {
+          console.log('Is ancestor:', response);
+        });
+      }
+
+      function areSiblings() {
+        var firstPerson = document.getElementById('firstPerson').value;
+        var secondPerson = document.getElementById('secondPerson').value;
+
+        var data = { firstPerson: firstPerson, secondPerson: secondPerson };
+
+        makeAjaxRequest('/areSiblings', data, function (response) {
+          console.log('Are siblings:', response);
+        });
+      }
+
+      function haveExtendedRelationship() {
+        var person1 = document.getElementById('relationshipPerson1').value;
+        var person2 = document.getElementById('relationshipPerson2').value;
+
+        var data = { person1: person1, person2: person2 };
+
+        makeAjaxRequest('/haveExtendedRelationship', data, function (response) {
+          console.log('Have extended relationship:', response);
+        });
+      }
+
+      function getLowestCommonAncestor() {
+        var person1 = document.getElementById('commonAncestor1').value;
+        var person2 = document.getElementById('commonAncestor2').value;
+
+        var data = { person1: person1, person2: person2 };
+
+        makeAjaxRequest('/getLowestCommonAncestor', data, function (response) {
+          console.log('Lowest common ancestor:', response);
+        });
+      }
+
+      function getMostDistanceFromChildren() {
+        var person = document.getElementById('distancePerson').value;
+
+        var data = { person: person };
+
+        makeAjaxRequest('/getMostDistanceFromChildren', data, function (response) {
+          console.log('Most distance from children:', response);
+        });
+      }
+
+      function getLongestRelationship() {
+        makeAjaxRequest('/getLongestRelationship', {}, function (response) {
+          console.log('Longest relationship:', response);
+        });
+      }
+
+    </script>
+  </body>
 
 </html>

@@ -1,9 +1,8 @@
-# Classes Diagram
+# Classes Diagrams
+
+## Trie
 
 ```mermaid
----
-title: Mysterious Family
----
 classDiagram
     class TrieNode {
         -TrieNode* children[ALPHABET_SIZE]
@@ -23,6 +22,12 @@ classDiagram
         +void getAllLeaves(TrieNode* node, vector<DAGNode*>& result)
         +vector<DAGNode*> getAllLeaves()
     }
+```
+
+## DAG
+
+```mermaid
+classDiagram
     class DAGNode {
         -string id
         -string name
@@ -54,6 +59,12 @@ classDiagram
         +DAGNode* findLowestCommonAncesotor(DAGNode* firstNode, DAGNode* secondNode)
         +pair<DAGNode*, DAGNode*> getLongestRelationship()
     }
+```
+
+## SFT
+
+```mermaid
+classDiagram
     class SFT {
         -Trie* trie
         -DAG* dag
@@ -73,5 +84,5 @@ classDiagram
         +int getMostDistanceFromChildren(string person)
         +pair<string, string> getLongestRelationship()
         +string toJSON(bool oneline = true) const
-}
+    }
 ```

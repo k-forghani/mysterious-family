@@ -2,6 +2,8 @@
 #include "libs/sha256.h"
 #include "libs/sft.h"
 
+SFT sft(true);
+
 int main() {
     crow::SimpleApp app;
 
@@ -11,8 +13,7 @@ int main() {
         return page.render(ctx);
     });
 
-    CROW_ROUTE(app, "/explore")([](){
-        SFT sft(true);
+    CROW_ROUTE(app, "/view")([](){
         sft.addPerson("1");
         sft.addPerson("2");
         sft.addPerson("121", "1", "2");
@@ -29,6 +30,12 @@ int main() {
 
         crow::mustache::context ctx;
         ctx["data"] = sft.toJSON();
+        auto page = crow::mustache::load("view.html");
+        return page.render(ctx);
+    });
+
+    CROW_ROUTE(app, "/explore")([](){
+        crow::mustache::context ctx;
         auto page = crow::mustache::load("explore.html");
         return page.render(ctx);
     });
