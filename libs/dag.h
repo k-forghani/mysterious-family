@@ -59,7 +59,7 @@ class DAG {
     public:
         DAG();
 
-        DAGNode* createNode(string id, DAGNode* father = nullptr, DAGNode* mother = nullptr);
+        DAGNode* createNode(string id, string name = "", DAGNode* father = nullptr, DAGNode* mother = nullptr);
 
         void deleteNode(DAGNode* target);
 

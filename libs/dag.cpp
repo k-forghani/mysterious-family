@@ -191,7 +191,6 @@ using namespace std;
         }
 
         return node;
-
     }
 
     void DAG::deleteNode(DAGNode* target) {

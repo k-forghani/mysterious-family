@@ -28,7 +28,7 @@ using namespace std;
         delete sha256;
     }
 
-    void SFT::addPerson(string id, string name, string fatherID, string motherID) {
+    void SFT::addPerson(string id, string fatherID, string motherID, string name) {
         if (doesEncrypt) {
             id = encrypt(id);
             name = encrypt(name);
@@ -36,10 +36,28 @@ using namespace std;
             motherID = encrypt(motherID);
         }
 
-        DAGNode* father = trie->search(fatherID);
-        DAGNode* mother = trie->search(motherID);
+        DAGNode* father = nullptr;
+        DAGNode* mother = nullptr;
 
-        DAGNode* person = dag->createNode(id, father, mother);
+        if (!fatherID.empty()) {
+            father = trie->search(fatherID);
+            if (!father) {
+                return;
+            }
+        }
+
+        if (!motherID.empty()) {
+            mother = trie->search(motherID);
+            if (!mother) {
+                return;
+            }
+        }
+
+        if (trie->search(id)) {
+            return;
+        }
+
+        DAGNode* person = dag->createNode(id, name, father, mother);
 
         trie->insert(id, person);
 

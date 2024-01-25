@@ -24,7 +24,7 @@ class SFT {
 
         ~SFT();
 
-        void addPerson(string id, string name = "", string fatherID = "", string motherID = "");
+        void addPerson(string id, string fatherID = "", string motherID = "", string name = "");
 
         bool findPerson(string id);
 
