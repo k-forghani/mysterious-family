@@ -15,8 +15,9 @@ int main () {
     
     // Secure Family Tree
     
-    SFT sft;
+    SFT sft(true);
     sft.addPerson("1");
+    cout << "getPersonsCount: " << sft.getPersonsCount() << endl;
     cout << "findPerson: " << sft.findPerson("1") << endl;
     sft.deletePerson("1");
     cout << "findPerson: " << sft.findPerson("1") << endl;
@@ -40,7 +41,7 @@ int main () {
     cout << "getLowsetCommonAncestor: " << sft.getLowsetCommonAncestor("1235611", "1213411") << endl;
     auto mostDistantRelationship = sft.getLongestRelationship();
     cout << "getMostDistantRelationship: " << mostDistantRelationship.first << " " << mostDistantRelationship.second << endl;
-    // cout << "JSON: " << sft.toJSON() << endl;
+    cout << "JSON: " << sft.toJSON() << endl;
     
     return 0;
 }

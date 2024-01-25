@@ -11,24 +11,27 @@ using namespace std;
 #pragma region SFT
 
     string SFT::encrypt(string value) const {
-        sha256->update(value);
-        std::array<uint8_t, 32> digest = sha256->digest();
+        if (value.empty()) {
+            return "";
+        }
+
+        SHA256 sha256;
+        sha256.update(value);
+        std::array<uint8_t, 32> digest = sha256.digest();
         return SHA256::toString(digest);
     }
 
     SFT::SFT(bool doesEncrypt) : count(0), doesEncrypt(doesEncrypt) {
         trie = new Trie();
         dag = new DAG();
-        sha256 = new SHA256();
     }
 
     SFT::~SFT() {
         delete trie;
         delete dag;
-        delete sha256;
     }
 
-    void SFT::addPerson(string id, string fatherID, string motherID, string name) {
+    string SFT::addPerson(string id, string fatherID, string motherID, string name) {
         if (doesEncrypt) {
             id = encrypt(id);
             name = encrypt(name);
@@ -42,19 +45,19 @@ using namespace std;
         if (!fatherID.empty()) {
             father = trie->search(fatherID);
             if (!father) {
-                return;
+                return "";
             }
         }
 
         if (!motherID.empty()) {
             mother = trie->search(motherID);
             if (!mother) {
-                return;
+                return "";
             }
         }
 
         if (trie->search(id)) {
-            return;
+            return "";
         }
 
         DAGNode* person = dag->createNode(id, name, father, mother);
@@ -62,6 +65,8 @@ using namespace std;
         trie->insert(id, person);
 
         count++;
+
+        return id;
     }
 
     bool SFT::findPerson(string id) {

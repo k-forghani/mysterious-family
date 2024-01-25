@@ -12,7 +12,7 @@ int main() {
     });
 
     CROW_ROUTE(app, "/explore")([](){
-        SFT sft;
+        SFT sft(true);
         sft.addPerson("1");
         sft.addPerson("2");
         sft.addPerson("121", "1", "2");

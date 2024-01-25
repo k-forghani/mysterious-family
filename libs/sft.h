@@ -12,7 +12,6 @@ class SFT {
     private:
         Trie* trie;
         DAG* dag;
-        SHA256* sha256;
 
         bool doesEncrypt;
         int count;
@@ -24,7 +23,7 @@ class SFT {
 
         ~SFT();
 
-        void addPerson(string id, string fatherID = "", string motherID = "", string name = "");
+        string addPerson(string id, string fatherID = "", string motherID = "", string name = "");
 
         bool findPerson(string id);
 
@@ -44,7 +43,7 @@ class SFT {
 
         pair<string, string> getLongestRelationship();
 
-        string toJSON(bool online = true) const;
+        string toJSON(bool oneline = true) const;
 };
 
 #endif
