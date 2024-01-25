@@ -44,7 +44,7 @@ class SFT {
 
         pair<string, string> getLongestRelationship();
 
-        string toJSON() const;
+        string toJSON(bool online = true) const;
 };
 
 #endif

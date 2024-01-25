@@ -187,7 +187,7 @@ using namespace std;
         );
     }
 
-    string SFT::toJSON() const {
+    string SFT::toJSON(bool oneline) const {
         vector<DAGNode*> nodes = trie->getAllLeaves();
         
         Json::Value json;
@@ -218,6 +218,11 @@ using namespace std;
         json["edges"] = jsonEdges;
         
         Json::StreamWriterBuilder writer;
+        
+        if (oneline) {
+            writer["indentation"] = "";
+        }
+
         string jsonString = Json::writeString(writer, json);
 
         return jsonString;
