@@ -1,6 +1,6 @@
 // https://github.com/System-Glitch/SHA256
 
-#include "hashes.h"
+#include "sha256.h"
 #include <cstring>
 #include <sstream>
 #include <iomanip>

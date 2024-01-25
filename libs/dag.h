@@ -12,13 +12,14 @@ using namespace std;
 class DAGNode {
     private:
         string id;
+        string name;
         DAGNode* father;
         DAGNode* mother;
 
     public:
         vector<DAGNode*> children;
         
-        DAGNode(string id);
+        DAGNode(string id, string name = "");
 
         ~DAGNode();
 
@@ -30,6 +31,10 @@ class DAGNode {
 
         string getID() const;
 
+        string getName() const;
+
+        bool isSourceNode() const;
+
         void linkToParents(DAGNode* father, DAGNode* mother);
 
         void linkChild(DAGNode* target);
@@ -39,8 +44,6 @@ class DAGNode {
         bool searchInChildren(string target, bool recursively = false);
 
         void getMostDistanceFromChildren(int& distance) const;
-
-        bool isSourceNode();
 
         void getAncestors(vector<DAGNode*>& ancestors);
 
@@ -56,13 +59,13 @@ class DAG {
     public:
         DAG();
 
-        DAGNode* newNode(string id, DAGNode* father = nullptr, DAGNode* mother = nullptr);
+        DAGNode* createNode(string id, DAGNode* father = nullptr, DAGNode* mother = nullptr);
 
         void deleteNode(DAGNode* target);
 
         DAGNode* findLowestCommonAncesotor(DAGNode* firstNode, DAGNode* secondNode);
 
-        pair<DAGNode*, DAGNode*> getMostDistantRelationship();
+        pair<DAGNode*, DAGNode*> getLongestRelationship();
 };
 
 #endif

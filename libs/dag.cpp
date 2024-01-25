@@ -11,7 +11,7 @@ using namespace std;
 
 #pragma region DAGNode
 
-    DAGNode::DAGNode(string id) : id(id) {
+    DAGNode::DAGNode(string id, string name) : id(id), name(name) {
         father = mother = nullptr;
     }
 
@@ -41,6 +41,14 @@ using namespace std;
 
     string DAGNode::getID() const {
         return id;
+    }
+
+    string DAGNode::getName() const {
+        return name;
+    }
+
+    bool DAGNode::isSourceNode() const {
+        return father == nullptr && mother == nullptr;
     }
 
     void DAGNode::linkToParents(DAGNode* father, DAGNode* mother) {
@@ -125,10 +133,6 @@ using namespace std;
         }
     }
 
-    bool DAGNode::isSourceNode() {
-        return father == nullptr && mother == nullptr;
-    }
-
     DAGNode* DAGNode::findFarthestNode() {
         unordered_set<DAGNode*> visitedNodes;
         queue<pair<DAGNode*, int>> nodesQueue;
@@ -178,8 +182,8 @@ using namespace std;
 
     }
 
-    DAGNode* DAG::newNode(string id, DAGNode* father, DAGNode* mother) {
-        DAGNode* node = new DAGNode(id);
+    DAGNode* DAG::createNode(string id, string name, DAGNode* father, DAGNode* mother) {
+        DAGNode* node = new DAGNode(id, name);
         node->linkToParents(father, mother);
 
         if (!father && !mother) {
@@ -221,7 +225,7 @@ using namespace std;
         return lca;
     }
 
-    pair<DAGNode*, DAGNode*> DAG::getMostDistantRelationship() {
+    pair<DAGNode*, DAGNode*> DAG::getLongestRelationship() {
         if (sourceNodes.empty()) {
             return make_pair(nullptr, nullptr);
         }

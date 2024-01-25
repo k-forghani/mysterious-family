@@ -121,5 +121,4 @@ using namespace std;
         return result;
     }
 
-
 #pragma endregion

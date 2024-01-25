@@ -1,5 +1,5 @@
 #include "crow.h"
-#include "libs/hashes.h"
+#include "libs/sha256.h"
 #include "libs/sft.h"
 
 int main() {

@@ -6,18 +6,25 @@
 #include <iostream>
 #include "dag.h"
 #include "trie.h"
+#include "sha256.h"
 
 class SFT {
     private:
         Trie* trie;
         DAG* dag;
+        SHA256* sha256;
 
+        bool doesEncrypt;
         int count;
 
-    public:
-        SFT();
+        string encrypt(string value) const;
 
-        void addPerson(string name, string fatherID = "", string motherID = "");
+    public:
+        SFT(bool doesEncrypt = false);
+
+        ~SFT();
+
+        void addPerson(string id, string name = "", string fatherID = "", string motherID = "");
 
         bool findPerson(string id);
 
@@ -35,7 +42,7 @@ class SFT {
 
         int getMostDistanceFromChildren(string person);
 
-        pair<string, string> getMostDistantRelationship();
+        pair<string, string> getLongestRelationship();
 
         string toJSON() const;
 };

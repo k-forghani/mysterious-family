@@ -1,6 +1,6 @@
 #include <iostream>
-#include "libs/hashes.h"
 #include "libs/sft.h"
+#include "libs/sha256.h"
 
 using namespace std;
 
@@ -38,7 +38,7 @@ int main () {
     cout << "areSiblings: " << sft.areSiblings("121", "123") << endl;
     cout << "getMostDistanceFromChildren: " << sft.getMostDistanceFromChildren("1") << endl;
     cout << "getLowsetCommonAncestor: " << sft.getLowsetCommonAncestor("1235611", "1213411") << endl;
-    auto mostDistantRelationship = sft.getMostDistantRelationship();
+    auto mostDistantRelationship = sft.getLongestRelationship();
     cout << "getMostDistantRelationship: " << mostDistantRelationship.first << " " << mostDistantRelationship.second << endl;
     // cout << "JSON: " << sft.toJSON() << endl;
     

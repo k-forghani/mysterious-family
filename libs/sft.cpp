@@ -4,53 +4,89 @@
 #include <map>
 #include <jsoncpp/json/json.h>
 #include "sft.h"
+#include "sha256.h"
 
 using namespace std;
 
-
 #pragma region SFT
 
-    SFT::SFT () : count(0) {
-        trie = new Trie();
-        dag = new DAG();
+    string SFT::encrypt(string value) const {
+        sha256->update(value);
+        std::array<uint8_t, 32> digest = sha256->digest();
+        return SHA256::toString(digest);
     }
 
-    void SFT::addPerson (string name, string fatherID, string motherID) {
-        string id = name;
+    SFT::SFT(bool doesEncrypt) : count(0), doesEncrypt(doesEncrypt) {
+        trie = new Trie();
+        dag = new DAG();
+        sha256 = new SHA256();
+    }
+
+    SFT::~SFT() {
+        delete trie;
+        delete dag;
+        delete sha256;
+    }
+
+    void SFT::addPerson(string id, string name, string fatherID, string motherID) {
+        if (doesEncrypt) {
+            id = encrypt(id);
+            name = encrypt(name);
+            fatherID = encrypt(fatherID);
+            motherID = encrypt(motherID);
+        }
 
         DAGNode* father = trie->search(fatherID);
         DAGNode* mother = trie->search(motherID);
 
-        DAGNode* person = dag->newNode(id, father, mother);
+        DAGNode* person = dag->createNode(id, father, mother);
 
         trie->insert(id, person);
 
         count++;
     }
 
-    bool SFT::findPerson (string id) {
+    bool SFT::findPerson(string id) {
+        if (doesEncrypt) {
+            id = encrypt(id);
+        }
+
         DAGNode* person = trie->search(id);
         return person != nullptr;
     }
 
-    void SFT::deletePerson (string id) {
+    void SFT::deletePerson(string id) {
+        if (doesEncrypt) {
+            id = encrypt(id);
+        }
+
         DAGNode* person = trie->remove(id);
         dag->deleteNode(person);
         count--;
     }
 
-    int SFT::getPersonsCount () {
+    int SFT::getPersonsCount() {
         return count;
     }
 
-    bool SFT::isAncestor (string ancestor, string child) {
+    bool SFT::isAncestor(string ancestor, string child) {
+        if (doesEncrypt) {
+            ancestor = encrypt(ancestor);
+            child = encrypt(child);
+        }
+
         DAGNode* ancestorObject = trie->search(ancestor);
         if (ancestorObject)
             return ancestorObject->searchInChildren(child, true);
         return false;
     }
 
-    bool SFT::areSiblings (string firstPerson, string secondPerson) {
+    bool SFT::areSiblings(string firstPerson, string secondPerson) {
+        if (doesEncrypt) {
+            firstPerson = encrypt(firstPerson);
+            secondPerson = encrypt(secondPerson);
+        }
+
         DAGNode* firstPersonObject = trie->search(firstPerson);
 
         if (firstPersonObject) {
@@ -60,7 +96,12 @@ using namespace std;
         return false;
     }
 
-    bool SFT::haveExtendedRelationship (string firstPerson, string secondPerson) {
+    bool SFT::haveExtendedRelationship(string firstPerson, string secondPerson) {
+        if (doesEncrypt) {
+            firstPerson = encrypt(firstPerson);
+            secondPerson = encrypt(secondPerson);
+        }
+
         DAGNode* firstPersonObject = trie->search(firstPerson);
         DAGNode* secondPersonObject = trie->search(secondPerson);
 
@@ -77,7 +118,12 @@ using namespace std;
         return lca != nullptr;
     }
 
-    string SFT::getLowsetCommonAncestor (string firstPerson, string secondPerson) {
+    string SFT::getLowsetCommonAncestor(string firstPerson, string secondPerson) {
+        if (doesEncrypt) {
+            firstPerson = encrypt(firstPerson);
+            secondPerson = encrypt(secondPerson);
+        }
+
         DAGNode* firstPersonObject = trie->search(firstPerson);
         DAGNode* secondPersonObject = trie->search(secondPerson);
         DAGNode* lca = dag->findLowestCommonAncesotor(firstPersonObject, secondPersonObject);
@@ -87,7 +133,11 @@ using namespace std;
             return "";
     }
 
-    int SFT::getMostDistanceFromChildren (string person) {
+    int SFT::getMostDistanceFromChildren(string person) {
+        if (doesEncrypt) {
+            person = encrypt(person);
+        }
+
         DAGNode* personObject = trie->search(person);
 
         int distance;
@@ -96,8 +146,8 @@ using namespace std;
         return distance;
     }
 
-    pair<string, string> SFT::getMostDistantRelationship () {
-        pair<DAGNode*, DAGNode*> farthestNodes = dag->getMostDistantRelationship();
+    pair<string, string> SFT::getLongestRelationship() {
+        pair<DAGNode*, DAGNode*> farthestNodes = dag->getLongestRelationship();
 
         if (!farthestNodes.first || !farthestNodes.second) {
             return make_pair("", "");
@@ -123,7 +173,7 @@ using namespace std;
         for (auto &&node : nodes) {
             Json::Value jsonNode;
             jsonNode["id"] = node->getID();
-            jsonNode["name"] = node->getID();
+            jsonNode["name"] = node->getName();
             jsonData["data"] = jsonNode;
             jsonNodes.append(jsonData);
             
