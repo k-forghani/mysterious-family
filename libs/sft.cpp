@@ -79,7 +79,13 @@ using namespace std;
         }
 
         DAGNode* person = trie->remove(id);
+
+        if (!person) {
+            return;
+        }
+        
         dag->deleteNode(person);
+        
         count--;
     }
 
@@ -157,6 +163,10 @@ using namespace std;
         }
 
         DAGNode* personObject = trie->search(person);
+
+        if (!personObject) {
+            return -1;
+        }
 
         int distance;
         personObject->getMostDistanceFromChildren(distance);
