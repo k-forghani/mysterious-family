@@ -38,7 +38,9 @@ int main () {
     cout << "areSiblings: " << sft.areSiblings("121", "123") << endl;
     cout << "getMostDistanceFromChildren: " << sft.getMostDistanceFromChildren("1") << endl;
     cout << "getLowsetCommonAncestor: " << sft.getLowsetCommonAncestor("1235611", "1213411") << endl;
-    cout << "JSON: " << sft.toJSON() << endl;
+    auto mostDistantRelationship = sft.getMostDistantRelationship();
+    cout << "getMostDistantRelationship: " << mostDistantRelationship.first << " " << mostDistantRelationship.second << endl;
+    // cout << "JSON: " << sft.toJSON() << endl;
     
     return 0;
 }

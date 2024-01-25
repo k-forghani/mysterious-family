@@ -21,9 +21,7 @@ using namespace std;
         DAGNode* father = trie->search(fatherID);
         DAGNode* mother = trie->search(motherID);
 
-        DAGNode* person = new DAGNode(id);
-
-        person->linkToParents(father, mother);
+        DAGNode* person = dag->newNode(id, father, mother);
 
         trie->insert(id, person);
 
@@ -99,7 +97,16 @@ using namespace std;
     }
 
     pair<string, string> SFT::getMostDistantRelationship () {
-        return make_pair("", "");
+        pair<DAGNode*, DAGNode*> farthestNodes = dag->getMostDistantRelationship();
+
+        if (!farthestNodes.first || !farthestNodes.second) {
+            return make_pair("", "");
+        }
+
+        return make_pair(
+            farthestNodes.first->getID(),
+            farthestNodes.second->getID()
+        );
     }
 
     string SFT::toJSON() const {

@@ -26,6 +26,8 @@ class DAGNode {
 
         DAGNode* getMother() const;
 
+        vector<DAGNode*> getChildren() const;
+
         string getID() const;
 
         void linkToParents(DAGNode* father, DAGNode* mother);
@@ -43,6 +45,8 @@ class DAGNode {
         void getAncestors(vector<DAGNode*>& ancestors);
 
         void traverseUpTo(DAGNode*& breakNode, vector<DAGNode*> nodes);
+
+        DAGNode* findFarthestNode();
 };
 
 class DAG {
@@ -57,6 +61,8 @@ class DAG {
         void deleteNode(DAGNode* target);
 
         DAGNode* findLowestCommonAncesotor(DAGNode* firstNode, DAGNode* secondNode);
+
+        pair<DAGNode*, DAGNode*> getMostDistantRelationship();
 };
 
 #endif

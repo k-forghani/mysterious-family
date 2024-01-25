@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
+#include <queue>
 #include "dag.h"
 
 using namespace std;
@@ -31,6 +33,10 @@ using namespace std;
 
     DAGNode* DAGNode::getMother() const {
         return mother;
+    }
+
+    vector<DAGNode*> DAGNode::getChildren() const {
+        return children;
     }
 
     string DAGNode::getID() const {
@@ -123,6 +129,47 @@ using namespace std;
         return father == nullptr && mother == nullptr;
     }
 
+    DAGNode* DAGNode::findFarthestNode() {
+        unordered_set<DAGNode*> visitedNodes;
+        queue<pair<DAGNode*, int>> nodesQueue;
+
+        nodesQueue.push({this, 0});
+        visitedNodes.insert(this);
+
+        DAGNode* farthestNode = this;
+        int maxDistance = 0;
+
+        while (!nodesQueue.empty()) {
+            auto current = nodesQueue.front();
+            nodesQueue.pop();
+
+            vector<DAGNode*> neighbors;
+
+            neighbors.push_back(current.first->getFather());
+            neighbors.push_back(current.first->getMother());
+
+            for (auto &&child : current.first->getChildren()) {
+                neighbors.push_back(child);
+            }
+
+            for (auto neighbor : neighbors) {
+                if (neighbor && visitedNodes.find(neighbor) == visitedNodes.end()) {
+                    nodesQueue.push(
+                        make_pair(neighbor, current.second + 1)
+                    );
+                    visitedNodes.insert(neighbor);
+
+                    if (current.second + 1 > maxDistance) {
+                        maxDistance = current.second + 1;
+                        farthestNode = neighbor;
+                    }
+                }
+            }
+        }
+
+        return farthestNode;
+    }
+
 #pragma endregion
 
 #pragma region DAG
@@ -140,6 +187,7 @@ using namespace std;
         }
 
         return node;
+
     }
 
     void DAG::deleteNode(DAGNode* target) {
@@ -171,6 +219,20 @@ using namespace std;
         secondNode->traverseUpTo(lca, firstNodeParents);
 
         return lca;
+    }
+
+    pair<DAGNode*, DAGNode*> DAG::getMostDistantRelationship() {
+        if (sourceNodes.empty()) {
+            return make_pair(nullptr, nullptr);
+        }
+
+        DAGNode* startNode = sourceNodes[0];
+
+        DAGNode* firstNode = startNode->findFarthestNode();
+
+        DAGNode* secondNode = firstNode->findFarthestNode();
+
+        return make_pair(firstNode, secondNode);
     }
 
 #pragma endregion
