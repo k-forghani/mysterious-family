@@ -11,6 +11,10 @@ classDiagram
         +~TrieNode()
         +bool hasNoChildren()
     }
+```
+
+```mermaid
+classDiagram
     class Trie {
         -TrieNode* root
         -int getIndex(char chr)
@@ -24,7 +28,7 @@ classDiagram
     }
 ```
 
-## DAG
+## Directed Acyclic Graph
 
 ```mermaid
 classDiagram
@@ -35,7 +39,7 @@ classDiagram
         -DAGNode* mother
         +vector<DAGNode*> children
         +DAGNode(string id, string name = "")
-        +~DAGNode()
+        +void destruct(unordered_set<DAGNode*>& visitedNodes)
         +DAGNode* getFather() const
         +DAGNode* getMother() const
         +vector<DAGNode*> getChildren() const
@@ -51,6 +55,10 @@ classDiagram
         +void traverseUpTo(DAGNode*& breakNode, vector<DAGNode*> nodes)
         +DAGNode* findFarthestNode()
     }
+```
+
+```mermaid
+classDiagram
     class DAG {
         -vector<DAGNode*> sourceNodes
         +DAG()
@@ -61,7 +69,7 @@ classDiagram
     }
 ```
 
-## SFT
+## Secure Family Tree
 
 ```mermaid
 classDiagram
@@ -75,7 +83,7 @@ classDiagram
         +~SFT()
         +string addPerson(string id, string fatherID = "", string motherID = "", string name = "")
         +bool findPerson(string id)
-        +void deletePerson(string id)
+        +bool deletePerson(string id)
         +int getPersonsCount()
         +bool isAncestor(string ancestor, string child)
         +bool areSiblings(string firstPerson, string secondPerson)
