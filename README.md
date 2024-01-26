@@ -4,7 +4,11 @@
 
 This is a simple secure implementation of family tree, developed as the final project of **Data Structures and Algorithms** (**Fall 2023**) course at **Iran University of Science and Technology**. The architecture of the project is based on the [project description](schema/description.pdf) provided by teaching assistants.
 
-## Dependencies
+## Installation
+
+### Recommended Way: Manual Installation
+
+#### Dependencies
 
 On Ubuntu operating system, install these dependencies:
 
@@ -16,7 +20,7 @@ wget https://github.com/CrowCpp/Crow/releases/download/v1.0%2B5/crow-v1.0+5.deb
 sudo apt-get install crow-v1.0+5.deb
 ```
 
-## Compilation
+#### Compilation
 
 On Unix-like operating systems, to compile the project and run the web application, just run `run.sh` with `app` argument:
 
@@ -39,7 +43,9 @@ g++ -o app.out app.cpp *.o -ljsoncpp
 ./app.out
 ```
 
-Then you can run `main` to use the interface.
+### Alternative Way: Docker Image
+
+You can use [`Dockerfile`](./Dockerfile) in order to build an image containing everything neccesary to run the web application. But since it is not fully tested yet, we do not recommend this way.
 
 ## Schema
 
