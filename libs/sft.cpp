@@ -32,7 +32,7 @@ using namespace std;
     }
 
     string SFT::addPerson(string id, string fatherID, string motherID, string name) {
-        if (fatherID == motherID) {
+        if (!fatherID.empty() && fatherID == motherID) {
             return "";
         }
 
