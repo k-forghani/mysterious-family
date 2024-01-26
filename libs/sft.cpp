@@ -32,6 +32,10 @@ using namespace std;
     }
 
     string SFT::addPerson(string id, string fatherID, string motherID, string name) {
+        if (fatherID == motherID) {
+            return "";
+        }
+
         if (doesEncrypt) {
             id = encrypt(id);
             name = encrypt(name);
@@ -127,7 +131,9 @@ using namespace std;
         DAGNode* firstPersonObject = trie->search(firstPerson);
 
         if (firstPersonObject) {
-            return firstPersonObject->getFather()->searchInChildren(secondPerson) || firstPersonObject->getMother()->searchInChildren(secondPerson);
+            DAGNode* father = firstPersonObject->getFather();
+            DAGNode* mother = firstPersonObject->getMother();
+            return (father && father->searchInChildren(secondPerson)) || (mother && mother->searchInChildren(secondPerson));
         }
 
         return false;

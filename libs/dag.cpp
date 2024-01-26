@@ -230,6 +230,8 @@ using namespace std;
 
         vector<DAGNode*> firstNodeParents;
 
+        firstNodeParents.push_back(firstNode);
+
         firstNode->getAncestors(firstNodeParents);
 
         DAGNode* lca = nullptr;
