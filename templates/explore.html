@@ -41,6 +41,7 @@
                 <input type="text" class="form-control" id="addName">
               </div>
               <button class="btn btn-primary mt-2 mb-2" onclick="addPerson()">Add Person</button>
+
             </div>
           </div>
         </fieldset>
@@ -217,8 +218,9 @@
 
         var data = { id: id, fatherID: fatherID, motherID: motherID, name: name };
 
-        makeAjaxRequest('/addPerson', data, function (response) {
+        makeAjaxRequest('/request/add-person', data, function (response) {
           console.log('Person added successfully:', response);
+          document.getElementById('viewer').contentWindow.location.reload();
         });
       }
 
@@ -227,8 +229,9 @@
 
         var data = { id: id };
 
-        makeAjaxRequest('/findPerson', data, function (response) {
+        makeAjaxRequest('/request/find-person', data, function (response) {
           console.log('Person found:', response);
+          document.getElementById('viewer').contentWindow.location.reload();
         });
       }
 
@@ -237,8 +240,9 @@
 
         var data = { id: id };
 
-        makeAjaxRequest('/deletePerson', data, function (response) {
+        makeAjaxRequest('/request/delete-person', data, function (response) {
           console.log('Person deleted successfully:', response);
+          document.getElementById('viewer').contentWindow.location.reload();
         });
       }
 
@@ -248,8 +252,9 @@
 
         var data = { ancestor: ancestor, child: child };
 
-        makeAjaxRequest('/isAncestor', data, function (response) {
+        makeAjaxRequest('/request/is-ancestor', data, function (response) {
           console.log('Is ancestor:', response);
+          document.getElementById('viewer').contentWindow.location.reload();
         });
       }
 
@@ -259,8 +264,9 @@
 
         var data = { firstPerson: firstPerson, secondPerson: secondPerson };
 
-        makeAjaxRequest('/areSiblings', data, function (response) {
+        makeAjaxRequest('/request/are-siblings', data, function (response) {
           console.log('Are siblings:', response);
+          document.getElementById('viewer').contentWindow.location.reload();
         });
       }
 
@@ -270,8 +276,9 @@
 
         var data = { person1: person1, person2: person2 };
 
-        makeAjaxRequest('/haveExtendedRelationship', data, function (response) {
+        makeAjaxRequest('/request/have-extended-relationship', data, function (response) {
           console.log('Have extended relationship:', response);
+          document.getElementById('viewer').contentWindow.location.reload();
         });
       }
 
@@ -281,8 +288,9 @@
 
         var data = { person1: person1, person2: person2 };
 
-        makeAjaxRequest('/getLowestCommonAncestor', data, function (response) {
+        makeAjaxRequest('/request/get-lowest-common-ancestor', data, function (response) {
           console.log('Lowest common ancestor:', response);
+          document.getElementById('viewer').contentWindow.location.reload();
         });
       }
 
@@ -291,14 +299,16 @@
 
         var data = { person: person };
 
-        makeAjaxRequest('/getMostDistanceFromChildren', data, function (response) {
+        makeAjaxRequest('/request/get-most-distance-from-children', data, function (response) {
           console.log('Most distance from children:', response);
+          document.getElementById('viewer').contentWindow.location.reload();
         });
       }
 
       function getLongestRelationship() {
-        makeAjaxRequest('/getLongestRelationship', {}, function (response) {
+        makeAjaxRequest('/request/get-longest-relationship', {}, function (response) {
           console.log('Longest relationship:', response);
+          document.getElementById('viewer').contentWindow.location.reload();
         });
       }
 
