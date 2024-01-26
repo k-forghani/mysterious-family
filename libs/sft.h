@@ -27,7 +27,7 @@ class SFT {
 
         bool findPerson(string id);
 
-        void deletePerson(string id);
+        bool deletePerson(string id);
 
         int getPersonsCount();
 

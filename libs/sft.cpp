@@ -86,7 +86,7 @@ using namespace std;
         return person != nullptr;
     }
 
-    void SFT::deletePerson(string id) {
+    bool SFT::deletePerson(string id) {
         if (doesEncrypt) {
             id = encrypt(id);
         }
@@ -94,7 +94,7 @@ using namespace std;
         DAGNode* person = trie->remove(id);
 
         if (!person) {
-            return;
+            return false;
         }
         
         vector<string> toDeleteNodes = dag->deleteNode(person);
@@ -104,6 +104,8 @@ using namespace std;
         }
         
         count--;
+
+        return true;
     }
 
     int SFT::getPersonsCount() {

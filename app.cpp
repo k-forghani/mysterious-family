@@ -79,7 +79,9 @@ int main() {
 
             string id = body["id"].s();
 
-            sft.deletePerson(id);
+            bool result = sft.deletePerson(id);
+
+            response["result"] = result;
 
         } else if (operation == "is-ancestor") {
 
