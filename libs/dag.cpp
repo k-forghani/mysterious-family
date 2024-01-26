@@ -15,16 +15,20 @@ using namespace std;
         father = mother = nullptr;
     }
 
-    DAGNode::~DAGNode() {
-        if (father)
+    void DAGNode::destruct(unordered_set<DAGNode*>& visitedNodes) {
+        if (father) {
             father -> unlinkChild(this);
-        
-        if (mother)
-            mother -> unlinkChild(this);
-
-        for (auto &&child : children) {
-            delete child;
         }
+        
+        if (mother) {
+            mother -> unlinkChild(this);
+        }
+        
+        for (auto &&child : children) {
+            child->destruct(visitedNodes);
+        }
+
+        visitedNodes.insert(this);
     }
 
     DAGNode* DAGNode::getFather() const {
@@ -193,7 +197,7 @@ using namespace std;
         return node;
     }
 
-    void DAG::deleteNode(DAGNode* target) {
+    vector<string> DAG::deleteNode(DAGNode* target) {
         auto cursor = sourceNodes.begin();
         auto end = sourceNodes.end();
 
@@ -205,8 +209,19 @@ using namespace std;
                 cursor++;
             }
         }
+        
+        unordered_set<DAGNode*> visitedNodes;
 
-        delete target;
+        target->destruct(visitedNodes);
+
+        vector<string> visitedIDs;
+
+        for (auto &&node : visitedNodes) {
+            visitedIDs.push_back(node->getID());
+            delete node;
+        }
+
+        return visitedIDs;
     }
 
     DAGNode* DAG::findLowestCommonAncesotor(DAGNode* firstNode, DAGNode* secondNode) {

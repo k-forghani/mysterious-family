@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <vector>
+#include <unordered_set>
 #include "trie.h"
 
 using namespace std;
@@ -21,7 +22,7 @@ class DAGNode {
         
         DAGNode(string id, string name = "");
 
-        ~DAGNode();
+        void destruct(unordered_set<DAGNode*>& visitedNodes);
 
         DAGNode* getFather() const;
 
@@ -61,7 +62,7 @@ class DAG {
 
         DAGNode* createNode(string id, string name = "", DAGNode* father = nullptr, DAGNode* mother = nullptr);
 
-        void deleteNode(DAGNode* target);
+        vector<string> deleteNode(DAGNode* target);
 
         DAGNode* findLowestCommonAncesotor(DAGNode* firstNode, DAGNode* secondNode);
 

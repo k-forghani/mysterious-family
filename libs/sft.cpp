@@ -39,6 +39,10 @@ using namespace std;
             motherID = encrypt(motherID);
         }
 
+        if (id.empty()) {
+            return "";
+        }
+
         DAGNode* father = nullptr;
         DAGNode* mother = nullptr;
 
@@ -89,7 +93,11 @@ using namespace std;
             return;
         }
         
-        dag->deleteNode(person);
+        vector<string> toDeleteNodes = dag->deleteNode(person);
+
+        for (auto &&nodeID : toDeleteNodes) {
+            trie->remove(nodeID);
+        }
         
         count--;
     }
